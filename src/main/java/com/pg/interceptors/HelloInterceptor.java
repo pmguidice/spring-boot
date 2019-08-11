@@ -2,6 +2,7 @@ package com.pg.interceptors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -32,8 +33,10 @@ public class HelloInterceptor extends HandlerInterceptorAdapter {
                     } catch (NumberFormatException e) {
                         logger.info("aborting processing of request because ID is too large");
 
-                        throw new Exception("id too large");
-                        //return false;
+                        response.getWriter().write("Invalid ID");
+                        response.setStatus(HttpStatus.BAD_REQUEST.value());
+
+                        return false;
                     }
                 }
             }
